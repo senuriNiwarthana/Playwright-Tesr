@@ -17,7 +17,7 @@ A comprehensive end-to-end testing suite built with Playwright for automated bro
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/yourusername/Playwright-Test.git
+git clone https://github.com/senuriNiwarthana/Playwright-Tesr.git
 cd Playwright-Test
 ```
 
