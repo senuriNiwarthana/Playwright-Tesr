@@ -1,60 +1,53 @@
-// @ts-check
 import { defineConfig, devices } from '@playwright/test';
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
 export default defineConfig({
-  // 1. Where your test files are located
-  testDir: './tests',
-
-  // 2. RUN SEQUENTIALLY: Force tests to run one by one so you can watch
-  workers: 1, 
+  testDir: './',
+  testMatch: '**/*.spec.js',
+  
+  // Test execution settings
+  timeout: 60000,
+  expect: {
+    timeout: 10000
+  },
+  
+  // Run tests in parallel
   fullyParallel: false,
-
-  // 3. Fail the build on CI if you accidentally left test.only in the source code.
-  forbidOnly: !!process.env.CI,
-
-  // 4. Retry settings
-  retries: process.env.CI ? 2 : 0,
-
-  // 5. Reporter to use (Required by assignment to see results)
-  reporter: 'html',
-
-  /* Shared settings for all the projects below. */
+  workers: 1,
+  
+  // Retry failed tests
+  retries: 0,
+  
+  // Reporter configuration
+  reporter: [
+    ['html', { outputFolder: 'test-results/html-report' }],
+    ['json', { outputFile: 'test-results/test-results.json' }],
+    ['list']
+  ],
+  
+  // Browser and test settings
   use: {
-    // 6. HEADED MODE: Open the browser window automatically
-    headless: false,
-
-    // 7. SLOW MOTION: Wait 1 second (1000ms) between every action (click, type, etc.)
-    launchOptions: {
-      slowMo: 1000, 
-    },
-
-    // 8. EVIDENCE: Collect trace and video (helpful for your Git repository)
-    trace: 'on',
-    video: 'on',
-    screenshot: 'on',
+    baseURL: 'https://www.swifttranslator.com/',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    
+    // Browser context options
+    viewport: { width: 1280, height: 720 },
+    ignoreHTTPSErrors: true,
+    
+    // Navigation timeout
+    navigationTimeout: 30000,
+    actionTimeout: 15000
   },
 
-  /* Configure projects for major browsers */
+  // Configure browser projects
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    },
-    /* 
-       Note: For the assignment run, we usually use Chromium. 
-       If you want to run on Firefox/Webkit as well, 
-       uncomment the lines below.
-    */
-    //  {
-    //    name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    //  },
-    //  {
-    //    name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    }
   ],
+  
+  // Output folder for test artifacts
+  outputDir: 'test-results/artifacts',
 });
