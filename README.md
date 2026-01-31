@@ -35,7 +35,7 @@ npx playwright install
 
 ### Run All Tests
 ```bash
-npm test
+npx playwright test
 ```
 
 ### Run Tests in UI Mode
